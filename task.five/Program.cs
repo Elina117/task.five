@@ -158,10 +158,468 @@ namespace task.five
             }
         }
 
+
+        static string task2(List<string[]> ph)
+        {
+
+            string phrase1 = "Drinks All Round! Free Beers on Bjorg!";
+            string phrase2 = "Ой, Бьорг - пончик! Ни для кого пива!";
+
+            int counter1 = 0;
+            int counter2 = 0;
+
+            for (int i = 0; i < ph[0].Length; i++)
+            {
+                if (ph[0][i] == "5")
+                {
+                    counter1++;
+                }
+            }
+            for (int j = 0; j < ph[1].Length; j++)
+                if (ph[0][j] == "5")
+                {
+                    counter2++;
+                }
+            return counter2 == counter1 ? phrase1 : phrase2;
+
+        }
+
+
+        public struct citizen
+        {
+            public string name;
+            public int pasport;
+            public string problem; //number and discription
+            public int temperament; //0-10
+            public int brain; //0-1
+
+            public citizen(string name, int pasport, string problem, int temperament, int brain)
+            {
+                this.name = name;
+                this.pasport = pasport;
+                this.problem = problem;
+                this.temperament = temperament;
+                this.brain = brain;
+            }
+
+
+            public void PrintCitizen()
+            {
+                Console.WriteLine($"{name}, {pasport}, {problem}, {temperament}, {brain}");
+            }
+
+        }
+        public static void task3()
+        {
+            citizen citizen1 = new citizen("Элина", 886322, "Проблема с отоплением", 6, 1);
+            citizen citizen2 = new citizen("Настя", 886542, "Проблема с оплатой", 8, 0);
+            citizen citizen3 = new citizen("Даша", 886322, "Другоем", 6, 1);
+            citizen citizen4 = new citizen("Рустам", 886322, "Проблема с отоплением", 6, 1);
+            citizen citizen5 = new citizen("Артем", 886322, "Проблема с оплатой", 6, 0);
+            citizen citizen6 = new citizen("Данил", 886322, "Другое", 6, 1);
+
+            Stack<citizen> zhekh = new Stack<citizen>();
+
+            LinkedList<string> window1 = new LinkedList<string>(); //проблема с оплатой
+            LinkedList<string> window2 = new LinkedList<string>(); //проблема с отоплением
+            LinkedList<string> window3 = new LinkedList<string>(); //другое
+
+            zhekh.Push(citizen1);
+            zhekh.Push(citizen2);
+            zhekh.Push(citizen3);
+            zhekh.Push(citizen4);
+            zhekh.Push(citizen5);
+            zhekh.Push(citizen6);
+
+            int i = zhekh.Count;
+
+            while (i>0)
+            {
+                var elem1 = zhekh.Pop();
+                if (elem1.problem == "Проблема с оплатой")
+                {
+                    string name = elem1.name;
+                    int scandal = elem1.temperament;
+                    int mind = elem1.brain;
+                    Console.WriteLine(name + " ,Вставайте в первое окно");
+
+                    if (mind == 1)
+                    {
+                        if (scandal < 5)
+                        {
+                            window2.AddLast(name);
+                        }
+                        else
+                        {
+                            if (window2.Count > 0)
+                            {
+                                Console.WriteLine(name + $", перед вами {window2.Count} людей. Сколько хотите обогнать?");
+                                byte obgon = Convert.ToByte(Console.ReadLine());
+                                if (obgon < window2.Count)
+                                {
+                                    window2.AddBefore(window2.Last, name);
+                                }
+                                else
+                                {
+                                    window2.AddLast(name);
+                                }
+
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        Random r = new Random();
+                        int rndWin = r.Next(0, 2);
+                        if (rndWin == 0)
+                        {
+                            if (scandal < 5)
+                            {
+                                window1.AddLast(name);
+                            }
+                            else
+                            {
+                                if (window2.Count > 0)
+                                {
+                                    Console.Write(name + $", перед вами {window1.Count} человек. Сколько хотите обогнать? ");
+                                    byte obgon = Convert.ToByte(Console.ReadLine());
+                                    if (obgon < window1.Count)
+                                    {
+                                        window1.AddBefore(window1.Last, name);
+                                    }
+                                    else
+                                    {
+                                        window1.AddFirst(name);
+                                    }
+                                }
+                                else
+                                {
+                                    window1.AddLast(name);
+                                }
+                            }
+                        }
+                        else
+
+                        {
+                            if (scandal < 5)
+                            {
+                                window3.AddLast(name);
+                            }
+                            else
+                            {
+                                if (window3.Count > 0)
+                                {
+                                    Console.Write(name + $", перед вами {window3.Count} человек. Сколько человек вы хотите обогнать? ");
+                                    byte temp = Convert.ToByte(Console.ReadLine());
+                                    if (temp < window3.Count)
+                                    {
+                                        window1.AddBefore(window3.Last, name);
+                                    }
+                                    else
+                                    {
+                                        window3.AddFirst(name);
+                                    }
+                                }
+                                else
+                                {
+                                    window3.AddLast(name);
+                                }
+                            }
+
+                        }
+                    }
+
+                } else if (elem1.problem == "Проблема с отоплением")
+                    {
+                        string name = elem1.name;
+                        int scandal = elem1.temperament;
+                        int mind = elem1.brain;
+                        Console.WriteLine(name + " ,Вставайте в первое окно");
+                        if (mind == 1)
+                        {
+                            if (scandal < 5)
+                            {
+                                window2.AddLast(name);
+                            }
+                            else
+                            {
+                                if (window2.Count > 0)
+                                {
+                                    Console.WriteLine(name + $", перед вами {window2.Count} людей. Сколько хотите обогнать?");
+                                    byte obgon = Convert.ToByte(Console.ReadLine());
+                                    if (obgon < window2.Count)
+                                    {
+                                        window2.AddBefore(window2.Last, name);
+                                    }
+                                    else
+                                    {
+                                        window2.AddLast(name);
+                                    }
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Random r = new Random();
+                            int rndWin = r.Next(0, 2);
+                            if (rndWin == 0)
+                            {
+                                if (scandal < 5)
+                                {
+                                    window1.AddLast(name);
+                                }
+                                else
+                                {
+                                    if (window2.Count > 0)
+                                    {
+                                        Console.Write(name + $", перед вами {window1.Count} человек. Сколько хотите обогнать? ");
+                                        byte obgon = Convert.ToByte(Console.ReadLine());
+                                        if (obgon < window1.Count)
+                                        {
+                                            window1.AddBefore(window1.Last, name);
+                                        }
+                                        else
+                                        {
+                                            window1.AddFirst(name);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        window1.AddLast(name);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (scandal < 5)
+                                {
+                                    window3.AddLast(name);
+                                }
+                                else
+                                {
+                                    if (window3.Count > 0)
+                                    {
+                                        Console.Write(name + $", перед вами {window3.Count} человек. Сколько человек вы хотите обогнать? ");
+                                        byte temp = Convert.ToByte(Console.ReadLine());
+                                        if (temp < window3.Count)
+                                        {
+                                            window1.AddBefore(window3.Last, name);
+                                        }
+                                        else
+                                        {
+                                            window3.AddFirst(name);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        window3.AddLast(name);
+                                    }
+                                }
+                            }
+                        }
+                }
+                    else
+                    {
+                        string name = elem1.name;
+                        int scandal = elem1.temperament;
+                        int mind = elem1.brain;
+                        Console.WriteLine(name + " ,Вставайте в первое окно");
+                        if (mind == 1)
+                        {
+                            if (scandal < 5)
+                            {
+                                window2.AddLast(name);
+                            }
+                            else
+                            {
+                                if (window2.Count > 0)
+                                {
+                                    Console.WriteLine(name + $", перед вами {window2.Count} людей. Сколько хотите обогнать?");
+                                    byte obgon = Convert.ToByte(Console.ReadLine());
+                                    if (obgon < window2.Count)
+                                    {
+                                        window2.AddBefore(window2.Last, name);
+                                    }
+                                    else
+                                    {
+                                        window2.AddLast(name);
+                                    }
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Random r = new Random();
+                            int rndWin = r.Next(0, 2);
+                            if (rndWin == 0)
+                            {
+                                if (scandal < 5)
+                                {
+                                    window1.AddLast(name);
+                                }
+                                else
+                                {
+                                    if (window2.Count > 0)
+                                    {
+                                        Console.Write(name + $", перед вами {window1.Count} человек. Сколько хотите обогнать? ");
+                                        byte obgon = Convert.ToByte(Console.ReadLine());
+                                        if (obgon < window1.Count)
+                                        {
+                                            window1.AddBefore(window1.Last, name);
+                                        }
+                                        else
+                                        {
+                                            window1.AddFirst(name);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        window1.AddLast(name);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (scandal < 5)
+                                {
+                                    window3.AddLast(name);
+                                }
+                                else
+                                {
+                                    if (window3.Count > 0)
+                                    {
+                                        Console.Write(name + $", перед вами {window3.Count} человек. Сколько человек вы хотите обогнать? ");
+                                        byte temp = Convert.ToByte(Console.ReadLine());
+                                        if (temp < window3.Count)
+                                        {
+                                            window1.AddBefore(window3.Last, name);
+                                        }
+                                        else
+                                        {
+                                            window3.AddFirst(name);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        window3.AddLast(name);
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    i--;
+            }
+                Console.WriteLine("Очередь в первое окно:");
+                foreach (string name in window1)
+                {
+                    Console.WriteLine(name);
+                }
+                Console.WriteLine("Очередь во второе окно:");
+                foreach (string name in window2)
+                {
+                    Console.WriteLine(name);
+                }
+                Console.WriteLine("Очередь в третье окно окно:");
+                foreach (string name in window3)
+                {
+                    Console.WriteLine(name);
+                }
+
+
+
+
+        }
+
+        public static void task4(int[][] graph)
+        {
+            Console.WriteLine("Задание 4 Обход графа в ширину");
+            Random rand = new Random();
+            Queue<int> NumbOfVersh = new Queue<int>();
+            Console.Write("Введите количество вершин: ");
+            int KolishVersh = int.Parse(Console.ReadLine());
+            
+            if (KolishVersh >= 3)
+            {
+                bool[] UsedVersh = new bool[KolishVersh + 1];
+                int[][] SmezhVersh = new int[KolishVersh + 1][];
+
+                for (int i = 0; i < KolishVersh + 1; i++)
+                {
+                    SmezhVersh[i] = new int[KolishVersh + 1];
+                    Console.Write($"\n{i + 1} вершина - [");
+                    for (int j = 0; j < KolishVersh + 1; j++)
+                    {
+                        SmezhVersh[i][j] = rand.Next(0, 2);
+                    }
+                    SmezhVersh[i][i] = 0;
+                    foreach (var item in SmezhVersh[i])
+                    {
+                        Console.Write($" {item}");
+                    }
+                    Console.Write("]\n");
+                }
+                UsedVersh[KolishVersh] = true;//информация о том, посещали мы вершину или нет 
+                NumbOfVersh.Enqueue(KolishVersh);
+                Console.WriteLine("Начинаем обход с {0} вершины", KolishVersh + 1);
+                while (NumbOfVersh.Count != 0)
+                {
+                    KolishVersh = NumbOfVersh.Peek();
+                    NumbOfVersh.Dequeue();
+                    Console.WriteLine("Перешли к узлу {0}", KolishVersh + 1);
+
+                    for (int i = 0; i < SmezhVersh.Length; i++)
+                    {
+                        if (Convert.ToBoolean(SmezhVersh[KolishVersh][i]))
+                        {
+                            int v = i;
+                            if (!UsedVersh[v])
+                            {
+                                UsedVersh[v] = true;
+                                NumbOfVersh.Enqueue(v);
+                                Console.WriteLine("Добавили в очередь узел {0}", v + 1);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Количество вершин некорректно");
+            }
+        }
+
+
+
+
+
         static void Main(string[] args)
         {
+            Console.WriteLine("Task1");
             task1();
             Console.ReadKey();
+
+
+            Console.WriteLine("Task2");
+            List<string[]> lst = new List<string[]>();
+            Console.WriteLine("Введите массив чисел первого клана (0..9)");
+            string[] arr1 = Console.ReadLine().Split(' ');
+            Console.WriteLine("Введите массив чисел второго клана (0..9)");
+            string[] arr2 = Console.ReadLine().Split(' ');
+            lst.Add(arr1);
+            lst.Add(arr2);
+            Console.WriteLine(task2(lst));
+
+
+            Console.WriteLine("Task3");
+            task3();
+
+            Console.WriteLine("Task4");
+            //task4();
+
 
         }
 
